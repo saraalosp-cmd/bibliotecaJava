@@ -13,6 +13,5 @@ CREATE TABLE IF NOT EXISTS Libro (
     inicio_lectura DATE,
     fin_lectura DATE,
     estado ENUM ("lo tengo", "leyendo", "leido", "deseado") NOT NULL DEFAULT "lo tengo"
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 COMMIT;
-
