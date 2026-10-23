@@ -194,6 +194,33 @@ public class LibroDAO {
         }
     }
 
+    /**
+     * Comprueba que el libro existe
+     * 
+     * @param conexion
+     * @param autor
+     * @param titulo
+     * @return true si existe, false si no existe
+     */
+    public boolean comprobarLibro (Connection conexion, String autor, String titulo) {
+
+        try (PreparedStatement ps = conexion.prepareStatement("SELECT id FROM Libro WHERE autor = ? AND titulo = ?")) {
+
+            ps.setString(1, autor);
+            ps.setString(2, titulo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQLException: "+ e.getMessage());
+            System.out.println("SQLState: "+ e.getSQLState());
+            System.out.println("VendorError: "+ e.getErrorCode());
+        }
+        return false;
+    }
+
     /** 
     * Modifica el libro asociado al id indicado
     * 

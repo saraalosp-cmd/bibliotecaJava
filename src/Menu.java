@@ -1,4 +1,3 @@
-import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.util.Scanner;
 
@@ -59,6 +58,14 @@ public class Menu {
                         System.out.println("\nAÑADIR LIBRO");
                         String titulo = entrada.validarTexto("Título");
                         String autor = entrada.validarTexto("Autor");
+
+                        if (libroDAO.comprobarLibro(conexion, autor, titulo)) {
+                            if (!entrada.confirmar("Ya existe un libro con ese título y autor. ¿Añadir igualmente?")) {
+                                System.out.println("Operación cancelada.");
+                                break;
+                            }
+                        }
+
                         String isbn = entrada.validarIsbn();
                         String editorial = entrada.validarTexto("Editorial");
                         int paginas = entrada.validarEnteros("Páginas");
