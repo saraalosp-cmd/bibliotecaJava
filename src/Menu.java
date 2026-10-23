@@ -77,7 +77,11 @@ public class Menu {
                     case 6: 
                         System.out.println("\nELIMINAR LIBRO");
                         id = entrada.validarEnteros("Introduce el ID");
-                        libroDAO.eliminarLibro(conexion, id);
+                        if (entrada.confirmar("Estás seguro de eliminar? Está acción no se puede deshacer")) {
+                            libroDAO.eliminarLibro(conexion, id);
+                        } else {
+                            System.out.println("Eliminación cancelada.");
+                        }
                         break;
                     case 0:
                         System.out.println("\nSALIR");

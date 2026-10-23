@@ -1,3 +1,4 @@
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -190,6 +191,23 @@ public class Entrada {
                 return actual;
             }
             return valor.substring(0,1).toUpperCase() + valor.substring(1);
+        }
+    }
+
+    
+    /**
+     * Solicita confirmación antes de eliminar un libro
+     * 
+     * @param mensaje 
+     * @return true si responde S, false si responde N
+     */
+    public boolean confirmar(String mensaje) {
+        while (true) {
+            System.out.println(mensaje + " (S/N): ");
+            String valor = sc.nextLine().trim();
+            if (valor.equalsIgnoreCase("S")) return true;
+            if (valor.equalsIgnoreCase("N")) return false;
+            System.out.println("Responde S o N.");
         }
     }
 }
