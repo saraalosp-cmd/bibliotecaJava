@@ -104,11 +104,6 @@ Puntos a resolver en el siguiente sprint:
 
 ### ➡️ Próximos pasos
 
-- ~~Comprobar si el libro existe antes de pedir todos los datos.~~
-- ~~Confirmación antes de eliminar.~~
-- ~~Corregir la visualización de caracteres especiales.~~
-- ~~Comprobar si existe una conexión activa antes de solicitar todos los datos.~~
-- ~~Clase `Entrada` para validar la entrada de datos (texto, enteros, ISBN con expresión regular, fechas y estados).~~
 - Filtros de búsqueda por título, autor o estado.
 - Cambio automático de estado según las fechas de lectura.
 - Pruebas y ajustes.
