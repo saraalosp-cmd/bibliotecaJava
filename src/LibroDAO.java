@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -36,6 +35,20 @@ public class LibroDAO {
         } catch (SQLException e) {
             System.out.println("Error en conexión :" + e.getMessage());
             return null;
+        }
+    }
+
+    /**
+     * Comprueba si la conexión está abierta.
+     * 
+     * @param conexion
+     * @return true si hay una conexión activa
+     */
+    public boolean conexionActiva (Connection conexion) {
+        try {
+            return conexion != null && !conexion.isClosed(); 
+        } catch (SQLException e) {
+            return false;
         }
     }
 
@@ -152,6 +165,7 @@ public class LibroDAO {
         return null;
     }
 
+    
     /** 
     * Añade un libro nuevo
     * 
@@ -170,7 +184,6 @@ public class LibroDAO {
             ps.setInt(5, libro.getPaginas());
             ps.setString(6, libro.getSinopsis());
             ps.setString(7, libro.getEstado().getValorDB());
-
             ps.executeUpdate();
             System.out.println("Libro añadido correctamente.");
 

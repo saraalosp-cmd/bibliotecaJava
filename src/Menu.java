@@ -1,13 +1,14 @@
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.util.Scanner;
 
 public class Menu {
-        private Scanner sc = new Scanner(System.in, "UTF-8");
+        private Scanner sc = new Scanner(System.in, "Cp850");
         private LibroDAO libroDAO = new LibroDAO();
         private Connection conexion;
-
+        
         private Entrada entrada = new Entrada(sc);
-
+        
         String menu = """
             BIBLIOTECA
             1. Conectar
@@ -32,15 +33,19 @@ public class Menu {
                 System.out.println("\n" + menu);
                 opcion = entrada.validarEnteros("Opción");
 
-                if (opcion >= 2 && opcion <= 6 && conexion == null) {
+                if (opcion >= 2 && opcion <= 6 && !libroDAO.conexionActiva(conexion)) {
                     System.out.println("Primero conecta la base de datos (opción 1).");
                     continue;
                 }
 
                 switch(opcion) {
                     case 1: 
+                    if (libroDAO.conexionActiva(conexion)) {
+                        System.out.println("Ya hay una conexión activa.");
+                    } else {
                         conexion = libroDAO.conexion(sc);
-                        break;
+                    }
+                    break;
                     case 2: 
                         System.out.println("\nIMPRIMIR BIBLIOTECA");
                         libroDAO.imprimirBiblioteca(conexion);
