@@ -93,16 +93,9 @@ BIBLIOTECA
 | `Menu.java` | Menú de consola y punto de entrada del programa. |
 | `biblioteca.sql` | Script para crear la base de datos y la tabla `Libro`. |
 
-
-### ⚠️ Limitaciones
+### ➡️ Próximos pasos
 
 Puntos a resolver en el siguiente sprint:
-
-- Filtros de búsqueda: por autor, por título, por estado.
-- Integrar la lógica de las fechas: si tiene fecha inicio y final el estado cambia automáticamente a `leido`, si tiene fecha inicio pero no final el estado cambia a `leyendo`.
-
-
-### ➡️ Próximos pasos
 
 - Filtros de búsqueda por título, autor o estado.
 - Cambio automático de estado según las fechas de lectura.
