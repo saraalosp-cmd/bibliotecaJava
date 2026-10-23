@@ -110,4 +110,5 @@ Puntos a resolver en el siguiente sprint:
 
 
 ### 👩‍💻 Autora
-Sara Alós Plaza [GitHub](https://github.com/saraalosp-cmd)
+Sara Alós Plaza - 2º DAM <2026/2027>
+[Repositorios](https://github.com/saraalosp-cmd)
