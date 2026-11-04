@@ -16,6 +16,7 @@ public class Menu {
             4. Añadir libro
             5. Modificar libro
             6. Eliminar libro
+            7. Buscar por título
             0. Salir
         """;
 
@@ -47,6 +48,7 @@ public class Menu {
                     break;
                     case 2: 
                         System.out.println("\nIMPRIMIR BIBLIOTECA");
+                        System.out.println();
                         libroDAO.imprimirBiblioteca(conexion);
                         break;
                     case 3: 
@@ -89,6 +91,12 @@ public class Menu {
                         } else {
                             System.out.println("Eliminación cancelada.");
                         }
+                        break;
+                    case 7:
+                        System.out.println("\nBUSCAR POR TÍTULO");
+                        titulo = entrada.validarTexto("Introduce el título");
+                        System.out.println();
+                        libroDAO.imprimirLista(libroDAO.buscarPorTitulo(conexion, titulo));
                         break;
                     case 0:
                         System.out.println("\nSALIR");
