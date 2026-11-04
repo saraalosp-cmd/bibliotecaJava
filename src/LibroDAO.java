@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.crypto.spec.PBEParameterSpec;
+
 public class LibroDAO {
 
     /**
@@ -355,8 +357,31 @@ public class LibroDAO {
     /**
      * Buscar por estado
      * 
-     * @param conexDB
+     * @param conexion
+     * @param estado
+     * @return lista de libros coincidentes
      */
+    public List<Libro> filtrarPorEstado(Connection conexion, EstadoLectura estado) {
+        List<Libro> libros = new ArrayList<>();
+
+        try (PreparedStatement ps = conexion.prepareStatement(
+            "SELECT id, titulo, autor, ISBN, editorial, paginas, sinopsis, inicio_lectura, fin_lectura, estado FROM Libro WHERE estado = ?")) {
+            
+            ps.setString(1, estado.getValorDB());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    libros.add(construirLibro(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+        return libros;
+    }
 
     /**
      * Crea un libro a partir del actual ResultSet.

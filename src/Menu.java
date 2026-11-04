@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.util.Scanner;
 
 public class Menu {
-        private Scanner sc = new Scanner(System.in, "Cp850");
+        private Scanner sc = new Scanner(System.in);
         private LibroDAO libroDAO = new LibroDAO();
         private Connection conexion;
         
@@ -17,6 +17,8 @@ public class Menu {
             5. Modificar libro
             6. Eliminar libro
             7. Buscar por título
+            8. Buscar por autor
+            9. Filtrar por estado de lectura
             0. Salir
         """;
 
@@ -33,7 +35,7 @@ public class Menu {
                 System.out.println("\n" + menu);
                 opcion = entrada.validarEnteros("Opción");
 
-                if (opcion >= 2 && opcion <= 6 && !libroDAO.conexionActiva(conexion)) {
+                if (opcion >= 2 && opcion <= 9 && !libroDAO.conexionActiva(conexion)) {
                     System.out.println("Primero conecta la base de datos (opción 1).");
                     continue;
                 }
@@ -54,6 +56,7 @@ public class Menu {
                     case 3: 
                         System.out.println("\nIMPRIMIR LIBRO");
                         id = entrada.validarEnteros("Introduce el ID");
+                        System.out.println();
                         libroDAO.imprimirLibro(conexion, id);
                         break;
                     case 4:
@@ -97,6 +100,18 @@ public class Menu {
                         titulo = entrada.validarTexto("Introduce el título");
                         System.out.println();
                         libroDAO.imprimirLista(libroDAO.buscarPorTitulo(conexion, titulo));
+                        break;
+                    case 8:
+                        System.out.println("\nBUSCAR POR AUTOR");
+                        autor = entrada.validarTexto("Introduce el autor");
+                        System.out.println();
+                        libroDAO.imprimirLista(libroDAO.buscarPorAutor(conexion, autor));
+                        break;
+                    case 9:
+                        System.out.println("\nFILTRAR POR ESTADO");
+                        estado = entrada.validarEstado();
+                        System.out.println();
+                        libroDAO.imprimirLista(libroDAO.filtrarPorEstado(conexion, estado));
                         break;
                     case 0:
                         System.out.println("\nSALIR");
