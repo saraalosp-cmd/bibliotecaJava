@@ -59,8 +59,8 @@ public class LibroDAO {
      * Solicita los datos.
      * Si no se introduce ningún valor, se usa el valor por defecto.
      * 
-     * @param sc      (Scanner)
-     * @param dato    nombre del dato que se pide
+     * @param sc (Scanner)
+     * @param dato nombre del dato que se pide
      * @param defecto valor usado si no se introduce nada
      * @return el texto introducido, o el valor por defecto
      */
@@ -105,7 +105,7 @@ public class LibroDAO {
      * Imprime un libro concreto indicando el id.
      * 
      * @param conexion
-     * @param id       identificador
+     * @param id identificador
      */
     public void imprimirLibro(Connection conexion, int id) {
         Libro libro = buscarLibro(conexion, id);
@@ -133,7 +133,7 @@ public class LibroDAO {
      * Busca un libro por el id
      * 
      * @param conexion
-     * @param id       identificador
+     * @param id identificador
      * @return el libro con el id indicado si existe, null si no existe.
      */
     public Libro buscarLibro(Connection conexion, int id) {
@@ -215,8 +215,8 @@ public class LibroDAO {
      * Modifica el libro asociado al id indicado
      * 
      * @param conexion
-     * @param sc       (Scanner)
-     * @param id       identificador
+     * @param sc (Scanner)
+     * @param id identificador
      */
     public void modificarLibro(Connection conexion, Scanner sc, Entrada entrada, int id) {
         Libro libro = buscarLibro(conexion, id);
@@ -272,7 +272,7 @@ public class LibroDAO {
      * Elimina el libro asociado al id indicado
      * 
      * @param conexion
-     * @param id       identificador
+     * @param id identificador
      */
     public void eliminarLibro(Connection conexion, int id) {
         Libro libro = buscarLibro(conexion, id);
@@ -326,8 +326,31 @@ public class LibroDAO {
     /**
      * Buscar por autor
      * 
-     * @param conexDB
+     * @param conexion
+     * @param autor
+     * @return lista de libros coincidentes
      */
+    public List<Libro> buscarPorAutor(Connection conexion, String autor) {
+        List<Libro> libros = new ArrayList<>();
+
+        try (PreparedStatement ps = conexion.prepareStatement(
+                "SELECT id, titulo, autor, ISBN, editorial, paginas, sinopsis, inicio_lectura, fin_lectura, estado FROM Libro WHERE autor LIKE ?")) {
+
+            ps.setString(1, "%" + autor + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    libros.add(construirLibro(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        }
+        return libros;
+    }
 
     /**
      * Buscar por estado
@@ -336,8 +359,10 @@ public class LibroDAO {
      */
 
     /**
-     * @param
+     * Crea un libro a partir del actual ResultSet.
+     * @param rs resultado de la consulta
      * @return libro creado
+     * @throws SQLException si falla la lectura de alguna columna
      */
     private Libro construirLibro(ResultSet rs) throws SQLException {
         Libro libro = new Libro(
@@ -361,8 +386,9 @@ public class LibroDAO {
     }
 
     /**
-     * 
-     * @param conexDB
+     * Imprime en forma de tabla la lista de libros.
+     * Si la lista está vacía, muestra un mensaje indicando que no se ha encontrado nada.
+     * @param libros 
      */
     public void imprimirLista(List<Libro> libros) {
         if(libros.isEmpty()) {
@@ -386,7 +412,6 @@ public class LibroDAO {
 
     /**
      * Desconexión de la DB
-     * 
      * @param conexDB
      */
     public void desconexion(Connection conexDB) {
