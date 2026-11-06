@@ -97,7 +97,7 @@ public class Entrada {
         while (true) {
             System.out.println("Estado (lo tengo, leyendo, leido, deseado): ");
             String valor = sc.nextLine().trim().toLowerCase().replace("í", "i");
-            if (valor.matches("lo tengo|leyendo|le.do|deseado")) {
+            if (valor.matches("lo tengo|leyendo|leido|deseado")) {
                 return EstadoLectura.desdeDB(valor);
             }
             System.out.println("Estado no válido.");
@@ -127,6 +127,7 @@ public class Entrada {
     /**
      * Pide una fecha con formato dd-mm-aaaa y comprueba que sea correcto.
      * Si se deja vacío no se asigna ninguna fecha.
+     * Si se pasa "-" se borra la fecha actual.
      * 
      * @param dato nombre del dato solicitado
      * @param fecha valor actual (puede ser null)
@@ -136,7 +137,7 @@ public class Entrada {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String actual = (fecha == null) ? "" : fecha.format(formato);
         while(true) {
-            System.out.println(dato + "(dd-mm-aaaa) [" + actual + "]: ");
+            System.out.println(dato + " (dd-mm-aaaa) [" + actual + "]: ");
             String valor = sc.nextLine().trim();
             if (valor.isEmpty()) {
                 return fecha;

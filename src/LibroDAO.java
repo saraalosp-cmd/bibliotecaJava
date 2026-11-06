@@ -426,7 +426,7 @@ public class LibroDAO {
     /**
      * Imprime en forma de tabla la lista de libros.
      * Si la lista está vacía, muestra un mensaje indicando que no se ha encontrado nada.
-     * @param libros 
+     * @param libros lista de libros resultado de los filtros aplicados
      */
     public void imprimirLista(List<Libro> libros) {
         if(libros.isEmpty()) {

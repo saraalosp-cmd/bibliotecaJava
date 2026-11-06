@@ -64,7 +64,7 @@ public class Libro {
 
     /**
      * Modifica el estado de lectura según las fechas de inicio o fin de lectura.
-     * Si no hay fecha fin cambia a "leido", si solo hay fecha de inicio cambia a "leyendo"
+     * Si hay fecha fin cambia a "leido", si solo hay fecha de inicio cambia a "leyendo"
      * Si no hay ninguna fecha, no se modifica.
      */
     public void actualizarEstado() {
