@@ -75,7 +75,7 @@ public class Entrada {
      */
     public int validarEnteros (String dato, int numero) {
         while(true) {
-            System.out.println(numero + " [" + numero + "]: ");
+            System.out.println(dato + " [" + numero + "]: ");
             String valor = sc.nextLine().trim();
             if (valor.isEmpty()) {
                 return numero;
