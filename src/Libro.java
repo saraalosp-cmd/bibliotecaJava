@@ -61,4 +61,17 @@ public class Libro {
         return String.format("%-5d %-40s %-30s %-15s %-10s",
         id, titulo, autor, isbn, estado.getValorDB());
     }
+
+    /**
+     * Modifica el estado de lectura según las fechas de inicio o fin de lectura.
+     * Si no hay fecha fin cambia a "leido", si solo hay fecha de inicio cambia a "leyendo"
+     * Si no hay ninguna fecha, no se modifica.
+     */
+    public void actualizarEstado() {
+        if (finLectura != null) {
+            setEstado(EstadoLectura.LEIDO);
+        } else if (inicioLectura != null) {
+            setEstado(EstadoLectura.LEYENDO);
+        }
+    }
 }
