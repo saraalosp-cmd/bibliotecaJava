@@ -129,13 +129,14 @@ public class Entrada {
      * Si se deja vacío no se asigna ninguna fecha.
      * 
      * @param dato nombre del dato solicitado
+     * @param fecha valor actual (puede ser null)
      * @return fecha introducida si es correcta, o null si se deja vacío.
      */
     public LocalDate validarFecha(String dato, LocalDate fecha) {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String actual = (fecha == null) ? "" : fecha.format(formato);
         while(true) {
-            System.out.println(dato + "(dd-mm-aaaa) [" + fecha + "]: ");
+            System.out.println(dato + "(dd-mm-aaaa) [" + actual + "]: ");
             String valor = sc.nextLine().trim();
             if (valor.isEmpty()) {
                 return fecha;
