@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.crypto.spec.PBEParameterSpec;
-
 public class LibroDAO {
 
     /**
@@ -233,9 +231,24 @@ public class LibroDAO {
         libro.setEditorial(entrada.validarTexto("Editorial", libro.getEditorial()));
         libro.setPaginas(entrada.validarEnteros("Páginas", libro.getPaginas()));
         libro.setSinopsis(pedir(sc, "Sinopsis", libro.getSinopsis()));
-        libro.setEstado(entrada.validarEstado(libro.getEstado()));
-        libro.setInicioLectura(entrada.validarFecha("Fecha de inicio", libro.getInicioLectura()));
-        libro.setFinLectura(entrada.validarFecha("Fecha fin", libro.getFinLectura()));
+        while (true) {
+            libro.setInicioLectura(entrada.validarFecha("Fecha de inicio", libro.getInicioLectura()));
+            libro.setFinLectura(entrada.validarFecha("Fecha fin", libro.getFinLectura()));
+            if (libro.getInicioLectura() != null && libro.getFinLectura() != null && libro.getFinLectura().isBefore(libro.getInicioLectura())) {
+                System.out.println("La fecha de fin de lectura no puede ser anterior a la de inicio.");
+            } else {
+                break;
+            }
+        }
+        if (libro.getInicioLectura() == null && libro.getFinLectura() == null) {
+            libro.setEstado(entrada.validarEstado(libro.getEstado()));
+        }
+
+        EstadoLectura anterior = libro.getEstado();
+        libro.actualizarEstado();
+        if (libro.getEstado() != anterior) {
+            System.out.println("Estado actualizado a " + libro.getEstado().getValorDB());
+        }
 
         Date inicio = null;
         if (libro.getInicioLectura() != null) {
