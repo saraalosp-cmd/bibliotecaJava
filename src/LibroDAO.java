@@ -81,12 +81,12 @@ public class LibroDAO {
         try (Statement stmt = conexion.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT id, titulo, autor, ISBN, editorial, estado FROM Libro")) {
 
-            System.out.printf("%-5s%-30s%-30s%-20s%-20s%-20s%n", "id", "titulo", "autor", "ISBN", "editorial",
+            System.out.printf("%-5s%-40s%-25s%-20s%-20s%-20s%n", "id", "titulo", "autor", "ISBN", "editorial",
                     "estado");
             System.out.println("-".repeat(125));
 
             while (rs.next()) {
-                System.out.printf("%-5s%-30s%-30s%-20s%-20s%-20s%n",
+                System.out.printf("%-5s%-40s%-25s%-20s%-20s%-20s%n",
                         rs.getInt("id"),
                         rs.getString("titulo"),
                         rs.getString("autor"),
@@ -434,11 +434,11 @@ public class LibroDAO {
             return;
         }
 
-        System.out.printf("%-5s%-30s%-30s%-20s%-20s%-20s%n", "id", "titulo", "autor", "ISBN", "editorial", "estado");
+        System.out.printf("%-5s%-40s%-25s%-20s%-20s%-20s%n", "id", "titulo", "autor", "ISBN", "editorial", "estado");
         System.out.println("-".repeat(125));
 
         for (Libro libro : libros) {
-            System.out.printf("%-5s%-30s%-30s%-20s%-20s%-20s%n",
+            System.out.printf("%-5s%-40s%-25s%-20s%-20s%-20s%n",
                         libro.getId(),
                         libro.getTitulo(),
                         libro.getAutor(),
