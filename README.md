@@ -108,7 +108,7 @@ BIBLIOTECA
 ### ⚠️ Limitaciones conocidas
 
 - La contraseña de la base de datos se muestra en pantalla al escribirla.
-- Escribir exactamente `cancelar` cancela la operación, así que no se puede utilizar solo esa palabra como dato. Un título como "Cancelar la deuda" sí se puede guardar.
+- Escribir **exactamente** `cancelar` cancela la operación, así que no se puede utilizar solo esa palabra como dato. Un título como "Cancelar la deuda" sí se puede guardar.
 - No se puede cancelar con `cancelar` en las preguntas de conexión ni en la sinopsis al añadir un libro.
 - Los números (ID, páginas, opción del menú) admiten hasta 4 dígitos.
 - Las fechas de lectura y el cambio automático de estado solo funcionan al modificar un libro; al añadirlo, se elige a mano.
