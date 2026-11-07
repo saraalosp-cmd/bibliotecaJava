@@ -3,17 +3,24 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+/**
+ * Lee y valida por consola los datos que introduce el usuario.
+ * Cada método repite la pregunta hasta recibir un valor válido.
+ */
 public class Entrada {
     
     private final Scanner sc;
 
+    /**
+     * @param sc scanner compartido con el resto de la aplicación
+    */
     public Entrada (Scanner sc) {
         this.sc = sc;
     }
     
     /**
      * Pide el ISBN y valida que tenga 13 dígitos.
-     * Se eliminan espacios y guiones.
+     * Se eliminan espacios y guiones, o el actual si se deja vacío.
      * 
      * @return el ISBN con 13 dígitos.
     */
@@ -91,7 +98,7 @@ public class Entrada {
      * Pide el estado de lectura y valida que sea uno de los cuatro permitidos.
      * No distingue mayúsculas de minúsculas y acepta "leído".
      * 
-     * @return el estado correspondiente.
+     * @return el estado correspondiente, o el actual si se deja vacío.
      */
     public EstadoLectura validarEstado() {
         while (true) {
@@ -105,10 +112,11 @@ public class Entrada {
     }
 
     /**
-     * Pide el estado de lectura mostrando el actual
+     * Pide el estado de lectura y valida que sea uno de los cuatro permitidos.
      * No distingue mayúsculas de minúsculas y acepta "leído".
+     * 
      * @param estado valor actual
-     * @return el estado correspondiente.
+     * @return el estado correspondiente, o el actual si se deja vacío.
      */
     public EstadoLectura validarEstado(EstadoLectura estado) {
         while (true) {
@@ -126,12 +134,12 @@ public class Entrada {
 
     /**
      * Pide una fecha con formato dd-mm-aaaa y comprueba que sea correcto.
-     * Si se deja vacío no se asigna ninguna fecha.
-     * Si se pasa "-" se borra la fecha actual.
+     * Si se deja vacío se mantiene la actual.
+     * Si se pasa "-", se borra la fecha.
      * 
      * @param dato nombre del dato solicitado
      * @param fecha valor actual (puede ser null)
-     * @return fecha introducida si es correcta, o null si se deja vacío.
+     * @return fecha introducida si es correcta, o null si se escribe "-".
      */
     public LocalDate validarFecha(String dato, LocalDate fecha) {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -178,7 +186,9 @@ public class Entrada {
     }
 
     /**
-     * Pide un texto, mostrando el actual. 
+     * Pide un texto, mostrando el actual. Si se deja vacío, se mantiene el actual.
+     * Si no, se eliminan los espacios al principio y final, dejando la primera en
+     * mayúscula.
      * 
      * @param dato nombre del dato solicitado.
      * @param acutal valor actual
@@ -197,9 +207,9 @@ public class Entrada {
 
     
     /**
-     * Solicita confirmación antes de eliminar un libro
+     * Solicita confirmación antes de eliminar un libro.
      * 
-     * @param mensaje 
+     * @param mensaje pregunta que muestra al usuario
      * @return true si responde S, false si responde N
      */
     public boolean confirmar(String mensaje) {
