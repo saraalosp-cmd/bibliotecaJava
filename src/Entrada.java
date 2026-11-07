@@ -65,7 +65,7 @@ public class Entrada {
         while(true) {
             System.out.println(dato + ": ");
             String valor = sc.nextLine().trim();
-            if (valor.matches("-?\\d+")) {
+            if (valor.matches("\\d{1,4}")) {
                 return Integer.parseInt(valor);
             }
             System.out.println("Introduce un número entero válido.");
@@ -87,7 +87,7 @@ public class Entrada {
             if (valor.isEmpty()) {
                 return numero;
             }
-            if (valor.matches("-?\\d+")) {
+            if (valor.matches("\\d{1,4}")) {
                 return Integer.parseInt(valor);
             }
             System.out.println("Introduce un número entero válido.");
@@ -120,7 +120,7 @@ public class Entrada {
      */
     public EstadoLectura validarEstado(EstadoLectura estado) {
         while (true) {
-            System.out.println("Estado (lo tengo, leyendo, leido, deseado): ");
+            System.out.println("Estado (lo tengo, leyendo, leido, deseado) [" + estado.getValorDB() + "]: ");
             String valor = sc.nextLine().trim().toLowerCase().replace("í", "i");
             if (valor.isEmpty()) {
                 return estado;
