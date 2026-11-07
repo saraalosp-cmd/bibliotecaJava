@@ -163,8 +163,8 @@ public class Entrada {
     }
 
     /**
-     * Pide un texto, eliminando los espacios al principio y al final y dejando
-     * la primera letra en mayúscula. 
+     * Pide un texto obligatorio, eliminando los espacios al principio y al final y 
+     * dejando la primera letra en mayúscula. 
      * 
      * @param dato nombre del dato solicitado.
      * @return texto formateado.
@@ -174,12 +174,7 @@ public class Entrada {
             System.out.println(dato + ": ");
             String valor = sc.nextLine().trim();
             if (!valor.isEmpty()) {
-                String[] palabras = valor.split("\\s+");
-                String resultado = "";
-                for (String palabra : palabras) {
-                    resultado += palabra.substring(0,1).toUpperCase() + palabra.substring(1) + " ";
-                }
-                return resultado.trim();
+                return valor.substring(0,1).toUpperCase() + valor.substring(1);
             }
             System.out.println("Debes introducir un valor.");
         }
@@ -191,18 +186,16 @@ public class Entrada {
      * mayúscula.
      * 
      * @param dato nombre del dato solicitado.
-     * @param acutal valor actual
+     * @param actual valor actual
      * @return texto formateado.
      */
     public String validarTexto(String dato, String actual) {
-        while(true) {
-            System.out.println(dato + " [" + actual + "]: ");
-            String valor = sc.nextLine().trim();
-            if (valor.isEmpty()){
-                return actual;
-            }
-            return valor.substring(0,1).toUpperCase() + valor.substring(1);
+        System.out.println(dato + " [" + actual + "]: ");
+        String valor = sc.nextLine().trim();
+        if (valor.isEmpty()){
+            return actual;
         }
+        return valor.substring(0,1).toUpperCase() + valor.substring(1);
     }
 
     
