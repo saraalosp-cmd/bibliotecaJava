@@ -1,7 +1,11 @@
 import java.time.LocalDate;
 
+/**
+ * 
+ * Libro de la biblioteca con sus datos y su estado de lectura
+ */
 public class Libro {
-    // atributos
+
     private int id;
     private String titulo;
     private String autor;
@@ -13,7 +17,10 @@ public class Libro {
     private LocalDate finLectura;
     private EstadoLectura estado;
 
-    // constructor
+    /**
+     * Crea un libro con los datos básicos. El ID y las fechas de lectura no se
+     * pasan por aquí, se asignan con los setters.
+     */
     public Libro (String titulo, String autor, String isbn, String editorial, int paginas, String sinopsis, EstadoLectura estado) {
         this.titulo = titulo;
         this.autor = autor;
@@ -24,7 +31,6 @@ public class Libro {
         this.estado = estado;
     }
 
-    // getters y setters
     public int getId() { return id;}
     public void setId(int nuevoId) {this.id = nuevoId;}
 
@@ -55,7 +61,7 @@ public class Libro {
     public EstadoLectura getEstado() { return estado;}
     public void setEstado(EstadoLectura nuevoEstado) {this.estado = nuevoEstado;}
 
-    // toString()
+
     @Override 
     public String toString() {
         return String.format("%-5d %-40s %-30s %-15s %-10s",
@@ -64,7 +70,7 @@ public class Libro {
 
     /**
      * Modifica el estado de lectura según las fechas de inicio o fin de lectura.
-     * Si hay fecha fin cambia a "leido", si solo hay fecha de inicio cambia a "leyendo"
+     * Si hay fecha fin cambia a "leido", si solo hay fecha de inicio cambia a "leyendo".
      * Si no hay ninguna fecha, no se modifica.
      */
     public void actualizarEstado() {
