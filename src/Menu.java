@@ -27,7 +27,7 @@ public class Menu {
                 9. Filtrar por estado de lectura
                 0. Salir
 
-                ("cancelar" para volver al menú)
+                (Escribe "cancelar" para volver al menú)
             """;
 
     /**
