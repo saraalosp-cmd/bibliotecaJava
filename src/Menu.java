@@ -1,6 +1,11 @@
 import java.sql.Connection;
 import java.util.Scanner;
 
+/**
+ * 
+ * Menú de consola de la biblioteca. Pide la opción al usuario y llama
+ * a las operaciones de LibroDAO.
+ */
 public class Menu {
         private Scanner sc = new Scanner(System.in);
         private LibroDAO libroDAO = new LibroDAO();
@@ -8,6 +13,7 @@ public class Menu {
         
         private Entrada entrada = new Entrada(sc);
         
+        /** Texto de las opciones del menú. */
         String menu = """
             BIBLIOTECA
             1. Conectar
@@ -42,12 +48,12 @@ public class Menu {
 
                 switch(opcion) {
                     case 1: 
-                    if (libroDAO.conexionActiva(conexion)) {
-                        System.out.println("Ya hay una conexión activa.");
-                    } else {
-                        conexion = libroDAO.conexion(sc);
-                    }
-                    break;
+                        if (libroDAO.conexionActiva(conexion)) {
+                            System.out.println("Ya hay una conexión activa.");
+                        } else {
+                            conexion = libroDAO.conexion(sc);
+                        }
+                        break;
                     case 2: 
                         System.out.println("\nIMPRIMIR BIBLIOTECA");
                         System.out.println();
@@ -74,7 +80,7 @@ public class Menu {
                         String isbn = entrada.validarIsbn();
                         String editorial = entrada.validarTexto("Editorial");
                         int paginas = entrada.validarEnteros("Páginas");
-                        System.out.println("Sinopsis");
+                        System.out.println("Sinopsis: ");
                         String sinopsis = sc.nextLine();
                         EstadoLectura estado = entrada.validarEstado();
 
@@ -89,7 +95,7 @@ public class Menu {
                     case 6: 
                         System.out.println("\nELIMINAR LIBRO");
                         id = entrada.validarEnteros("Introduce el ID");
-                        if (entrada.confirmar("Estás seguro de eliminar? Está acción no se puede deshacer")) {
+                        if (entrada.confirmar("¿Estás seguro de eliminar? Está acción no se puede deshacer")) {
                             libroDAO.eliminarLibro(conexion, id);
                         } else {
                             System.out.println("Eliminación cancelada.");
@@ -125,9 +131,7 @@ public class Menu {
             } while (opcion != 0);
         }
 
-    /** 
-    * Ejecuta el código
-    */
+    /** Punto de entrada de la aplicación. */
     public static void main(String[] args) {
         Menu app = new Menu();
         app.validarOpcion();
