@@ -1,3 +1,7 @@
+/**
+ * Estados de lectura del libro.
+ * Cada constante guarda el texto con el que se almacena en la base de datos.
+ */
 public enum EstadoLectura {
     // valores
     LO_TENGO("lo tengo"),
@@ -7,6 +11,9 @@ public enum EstadoLectura {
 
     private final String valorDB;
 
+    /**
+     * @param valorDB texto del estado en la base de datos
+     */
     EstadoLectura (String valorDB) {
         this.valorDB = valorDB;
     }
@@ -14,8 +21,8 @@ public enum EstadoLectura {
     public String getValorDB() { return valorDB;}
 
     /**
-    Pasa el texto de la DB al valor del enum
-
+    * Pasa el texto de la DB al valor del enum
+    *
     @param valor estado en la DB
     @return constante de EstadoLectura asociada al valor
     @throws IlegallArgumentException si no se corresponde a ningún estado
