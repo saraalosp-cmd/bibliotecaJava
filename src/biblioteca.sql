@@ -1,4 +1,6 @@
 -- Active: 1765391957085@@127.0.0.1@3306@biblioteca
+
+-- Crea la base de datos y la tabla Libro de la biblioteca.
 CREATE DATABASE IF NOT EXISTS biblioteca;
 USE biblioteca;
 
