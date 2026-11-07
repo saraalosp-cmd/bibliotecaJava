@@ -16,6 +16,7 @@ public class Menu {
         /** Texto de las opciones del menú. */
         String menu = """
             BIBLIOTECA
+            --------------------------------
             1. Conectar
             2. Imprimir biblioteca
             3. Ver libro
@@ -61,12 +62,14 @@ public class Menu {
                         break;
                     case 3: 
                         System.out.println("\nIMPRIMIR LIBRO");
+                        System.out.println();
                         id = entrada.validarEnteros("Introduce el ID");
                         System.out.println();
                         libroDAO.imprimirLibro(conexion, id);
                         break;
                     case 4:
                         System.out.println("\nAÑADIR LIBRO");
+                        System.out.println();
                         String titulo = entrada.validarTexto("Título");
                         String autor = entrada.validarTexto("Autor");
 
@@ -77,7 +80,15 @@ public class Menu {
                             }
                         }
 
-                        String isbn = entrada.validarIsbn();
+                        String isbn;
+                        while (true) {
+                            isbn = entrada.validarIsbn();
+                            if (!libroDAO.existeIsbn(conexion, isbn)) {
+                                break;
+                            }
+                            System.out.println("Ya existe un libro con ese ISBN.");
+                        }
+
                         String editorial = entrada.validarTexto("Editorial");
                         int paginas = entrada.validarEnteros("Páginas");
                         System.out.println("Sinopsis: ");
@@ -89,11 +100,13 @@ public class Menu {
                         break;
                     case 5: 
                         System.out.println("\nMODIFICAR LIBRO");
+                        System.out.println();
                         id = entrada.validarEnteros("Introduce el ID");
                         libroDAO.modificarLibro(conexion,sc, entrada, id);
                         break;
                     case 6: 
                         System.out.println("\nELIMINAR LIBRO");
+                        System.out.println();
                         id = entrada.validarEnteros("Introduce el ID");
                         if (entrada.confirmar("¿Estás seguro de eliminar? Está acción no se puede deshacer")) {
                             libroDAO.eliminarLibro(conexion, id);
@@ -103,18 +116,21 @@ public class Menu {
                         break;
                     case 7:
                         System.out.println("\nBUSCAR POR TÍTULO");
+                        System.out.println();
                         titulo = entrada.validarTexto("Introduce el título");
                         System.out.println();
                         libroDAO.imprimirLista(libroDAO.buscarPorTitulo(conexion, titulo));
                         break;
                     case 8:
                         System.out.println("\nBUSCAR POR AUTOR");
+                        System.out.println();
                         autor = entrada.validarTexto("Introduce el autor");
                         System.out.println();
                         libroDAO.imprimirLista(libroDAO.buscarPorAutor(conexion, autor));
                         break;
                     case 9:
                         System.out.println("\nFILTRAR POR ESTADO");
+                        System.out.println();
                         estado = entrada.validarEstado();
                         System.out.println();
                         libroDAO.imprimirLista(libroDAO.filtrarPorEstado(conexion, estado));

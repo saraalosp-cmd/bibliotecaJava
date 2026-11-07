@@ -86,12 +86,12 @@ public class LibroDAO {
         try (Statement stmt = conexion.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT id, titulo, autor, ISBN, editorial, estado FROM Libro")) {
 
-            System.out.printf("%-5s%-40s%-25s%-20s%-20s%-20s%n", "id", "titulo", "autor", "ISBN", "editorial",
+            System.out.printf("%-5s%-40s%-25s%-20s%-20s%-15s%n", "id", "titulo", "autor", "ISBN", "editorial",
                     "estado");
             System.out.println("-".repeat(125));
 
             while (rs.next()) {
-                System.out.printf("%-5s%-40s%-25s%-20s%-20s%-20s%n",
+                System.out.printf("%-5s%-40s%-25s%-20s%-20s%-15s%n",
                         rs.getInt("id"),
                         rs.getString("titulo"),
                         rs.getString("autor"),
@@ -100,9 +100,7 @@ public class LibroDAO {
                         rs.getString("estado"));
             }
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
     }
 
@@ -153,9 +151,7 @@ public class LibroDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
         return null;
     }
@@ -180,12 +176,10 @@ public class LibroDAO {
             ps.setString(6, libro.getSinopsis());
             ps.setString(7, libro.getEstado().getValorDB());
             ps.executeUpdate();
-            System.out.println("Libro añadido correctamente.");
+            System.out.println("\nLibro añadido correctamente.");
 
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
     }
 
@@ -209,9 +203,7 @@ public class LibroDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
         return false;
     }
@@ -232,10 +224,20 @@ public class LibroDAO {
 
         libro.setTitulo(entrada.validarTexto("Título", libro.getTitulo()));
         libro.setAutor(entrada.validarTexto("Autor", libro.getAutor()));
-        libro.setIsbn(entrada.validarIsbn(libro.getIsbn()));
+        
+        String isbnOriginal = libro.getIsbn();
+        while(true) {
+            libro.setIsbn(entrada.validarIsbn(isbnOriginal));
+            if (libro.getIsbn().equals(isbnOriginal) || !existeIsbn(conexion, libro.getIsbn())) {
+                break;
+            }
+            System.out.println("Ya existe otro libro con ese ISBN.");
+        }
+
         libro.setEditorial(entrada.validarTexto("Editorial", libro.getEditorial()));
         libro.setPaginas(entrada.validarEnteros("Páginas", libro.getPaginas()));
         libro.setSinopsis(pedir(sc, "Sinopsis", libro.getSinopsis()));
+
         while (true) {
             libro.setInicioLectura(entrada.validarFecha("Fecha de inicio", libro.getInicioLectura()));
             libro.setFinLectura(entrada.validarFecha("Fecha fin", libro.getFinLectura()));
@@ -282,9 +284,7 @@ public class LibroDAO {
             System.out.println("Libro modificado correctamente.");
 
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
     }
 
@@ -308,9 +308,7 @@ public class LibroDAO {
             System.out.println("Libro eliminado correctamente.");
 
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
     }
 
@@ -336,9 +334,7 @@ public class LibroDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
         return libros;
     }
@@ -365,9 +361,7 @@ public class LibroDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
         return libros;
     }
@@ -394,9 +388,7 @@ public class LibroDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            mostrarError(e);
         }
         return libros;
     }
@@ -443,7 +435,7 @@ public class LibroDAO {
         System.out.println("-".repeat(125));
 
         for (Libro libro : libros) {
-            System.out.printf("%-5s%-40s%-25s%-20s%-20s%-20s%n",
+            System.out.printf("%-5s%-40s%-25s%-20s%-20s%-15s%n",
                         libro.getId(),
                         libro.getTitulo(),
                         libro.getAutor(),
@@ -452,6 +444,37 @@ public class LibroDAO {
                         libro.getEstado().getValorDB());
         }
     }
+
+    /**
+     * Comprueba si ya existe un libro con ese ISBN.
+     * @param conexion conexión activa con la DB
+     * @param isbn ISBN a comprobar
+     * @return true si existe, false si no existe
+     */
+    public boolean existeIsbn(Connection conexion, String isbn) {
+        try (PreparedStatement ps = conexion.prepareStatement("SELECT id FROM Libro WHERE ISBN = ?")) {
+            ps.setString(1, isbn);
+
+            try(ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            mostrarError(e);
+        }
+        return false;
+    }
+
+    /**
+     * Muestra por consola los datos de error de la DB.
+     * @param e excepción capturada
+     */
+    private void mostrarError(SQLException e) {
+        System.out.println("SQLException: " + e.getMessage());
+        System.out.println("SQLState: " + e.getSQLState());
+        System.out.println("VendorError: " + e.getErrorCode());
+    }
+    
 
     /**
      * Desconexión de la DB

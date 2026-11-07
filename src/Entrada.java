@@ -68,7 +68,7 @@ public class Entrada {
             if (valor.matches("\\d{1,4}")) {
                 return Integer.parseInt(valor);
             }
-            System.out.println("Introduce un número entero válido.");
+            System.out.println("Introduce un número entero válido.\n");
         }
     }
 
@@ -90,7 +90,7 @@ public class Entrada {
             if (valor.matches("\\d{1,4}")) {
                 return Integer.parseInt(valor);
             }
-            System.out.println("Introduce un número entero válido.");
+            System.out.println("Introduce un número entero válido.\n");
         }
     }
 
