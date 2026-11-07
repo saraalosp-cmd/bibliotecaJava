@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 
+ * Acceso a la tabla Libro de la base de datos: conexión, consultas,
+ * altas, modificaciones y bajas.
+ */
 public class LibroDAO {
 
     /**
@@ -17,7 +22,7 @@ public class LibroDAO {
      * Si no se introduce ningún valor, se usa el valor por defecto, excepto la
      * contraseña.
      * 
-     * @param sc (Scanner)
+     * @param sc scanner para leer los datos por consola.
      * @return conexión abierta con la DB, null si hay algún error.
      */
     public Connection conexion(Scanner sc) {
@@ -44,7 +49,7 @@ public class LibroDAO {
     /**
      * Comprueba si la conexión está abierta.
      * 
-     * @param conexion
+     * @param conexion conexión activa con la DB
      * @return true si hay una conexión activa
      */
     public boolean conexionActiva(Connection conexion) {
@@ -59,7 +64,7 @@ public class LibroDAO {
      * Solicita los datos.
      * Si no se introduce ningún valor, se usa el valor por defecto.
      * 
-     * @param sc (Scanner)
+     * @param sc scanner para leer los datos por consola.
      * @param dato nombre del dato que se pide
      * @param defecto valor usado si no se introduce nada
      * @return el texto introducido, o el valor por defecto
@@ -74,7 +79,7 @@ public class LibroDAO {
     /**
      * Imprime la biblioteca de libros almacenados en la DB
      * 
-     * @param conexion
+     * @param conexion conexión activa con la DB
      */
     public void imprimirBiblioteca(Connection conexion) {
 
@@ -104,7 +109,7 @@ public class LibroDAO {
     /**
      * Imprime un libro concreto indicando el id.
      * 
-     * @param conexion
+     * @param conexion conexión activa con la DB
      * @param id identificador
      */
     public void imprimirLibro(Connection conexion, int id) {
@@ -132,7 +137,7 @@ public class LibroDAO {
     /**
      * Busca un libro por el id
      * 
-     * @param conexion
+     * @param conexion conexión activa con la DB
      * @param id identificador
      * @return el libro con el id indicado si existe, null si no existe.
      */
@@ -158,8 +163,8 @@ public class LibroDAO {
     /**
      * Añade un libro nuevo
      * 
-     * @param conexion
-     * @param libro
+     * @param conexion conexión activa con la DB
+     * @param libro libro que se añade
      */
     public void añadirLibro(Connection conexion, Libro libro) {
 
@@ -185,11 +190,11 @@ public class LibroDAO {
     }
 
     /**
-     * Comprueba que el libro existe
+     * Comprueba si ya exista un libro con ese autor y título
      * 
-     * @param conexion
-     * @param autor
-     * @param titulo
+     * @param conexion conexión activa con la DB
+     * @param autor autor del libro
+     * @param titulo título del libro
      * @return true si existe, false si no existe
      */
     public boolean comprobarLibro(Connection conexion, String autor, String titulo) {
@@ -214,9 +219,9 @@ public class LibroDAO {
     /**
      * Modifica el libro asociado al id indicado
      * 
-     * @param conexion
-     * @param sc (Scanner)
-     * @param id identificador
+     * @param conexion conexión activa con la DB
+     * @param sc scanner para leer los datos por consola.
+     * @param id identificador del libro
      */
     public void modificarLibro(Connection conexion, Scanner sc, Entrada entrada, int id) {
         Libro libro = buscarLibro(conexion, id);
@@ -286,8 +291,8 @@ public class LibroDAO {
     /**
      * Elimina el libro asociado al id indicado
      * 
-     * @param conexion
-     * @param id identificador
+     * @param conexion conexión activa con la DB
+     * @param id identificador del libro
      */
     public void eliminarLibro(Connection conexion, int id) {
         Libro libro = buscarLibro(conexion, id);
@@ -312,8 +317,8 @@ public class LibroDAO {
     /**
      * Buscar por título
      * 
-     * @param conexion
-     * @param titulo
+     * @param conexion conexión activa con la DB
+     * @param titulo título del libro
      * @return listado de libros coincidentes
      */
     public List<Libro> buscarPorTitulo(Connection conexion, String titulo) {
@@ -341,8 +346,8 @@ public class LibroDAO {
     /**
      * Buscar por autor
      * 
-     * @param conexion
-     * @param autor
+     * @param conexion conexión activa con la DB
+     * @param autor autor del libro
      * @return lista de libros coincidentes
      */
     public List<Libro> buscarPorAutor(Connection conexion, String autor) {
@@ -368,11 +373,11 @@ public class LibroDAO {
     }
 
     /**
-     * Buscar por estado
+     * Filtra los libros por estado de lectura
      * 
-     * @param conexion
-     * @param estado
-     * @return lista de libros coincidentes
+     * @param conexion conexión activa con la DB
+     * @param estado estado de lectura que se filtra
+     * @return lista de libros coincidentes, vacía si no hay coincidencias
      */
     public List<Libro> filtrarPorEstado(Connection conexion, EstadoLectura estado) {
         List<Libro> libros = new ArrayList<>();
@@ -450,7 +455,7 @@ public class LibroDAO {
 
     /**
      * Desconexión de la DB
-     * @param conexDB
+     * @param conexDB conexión que se cierra (puede ser null).
      */
     public void desconexion(Connection conexDB) {
         if (conexDB != null) {
