@@ -6,6 +6,7 @@ import java.util.Scanner;
 /**
  * Lee y valida por consola los datos que introduce el usuario.
  * Cada método repite la pregunta hasta recibir un valor válido.
+ * Al escribir "cancelar" se interrumpe la operación.
  */
 public class Entrada {
     
@@ -20,14 +21,14 @@ public class Entrada {
     
     /**
      * Pide el ISBN y valida que tenga 13 dígitos.
-     * Se eliminan espacios y guiones, o el actual si se deja vacío.
+     * Se eliminan espacios y guiones.
      * 
      * @return el ISBN con 13 dígitos.
     */
     public String validarIsbn () {
         while(true) {
             System.out.println("ISBN (13 dígitos): ");
-            String valor = sc.nextLine().replaceAll("[-\\s]", "");
+            String valor = leer().replaceAll("[-\\s]", "");
             if (valor.matches("\\d{13}")) {
                 return valor;
             }
@@ -44,7 +45,7 @@ public class Entrada {
     public String validarIsbn (String isbn) {
         while(true) {
             System.out.println("ISBN (13 dígitos) [" + isbn + "]: ");
-            String valor = sc.nextLine().replaceAll("[-\\s]", "");
+            String valor = leer().replaceAll("[-\\s]", "");
             if (valor.isEmpty()) {
                 return isbn;
             }
@@ -56,7 +57,7 @@ public class Entrada {
     }
 
     /**
-     * Pide un entero y repite la pregunta hasta que sea válido.
+     * Pide un entero (1-4 dígitos) y repite la pregunta hasta que sea válido.
      * 
      * @param dato nombre del dato solicitado
      * @return el entero introducido cuando sea correcto.
@@ -64,7 +65,7 @@ public class Entrada {
     public int validarEnteros (String dato) {
         while(true) {
             System.out.println(dato + ": ");
-            String valor = sc.nextLine().trim();
+            String valor = leer().trim();
             if (valor.matches("\\d{1,4}")) {
                 return Integer.parseInt(valor);
             }
@@ -73,7 +74,7 @@ public class Entrada {
     }
 
     /**
-     * Pide un entero mostrando el valor actual.
+     * Pide un entero (1-4 dígitos) mostrando el valor actual.
      * Si se deja vacío, se mantiene el actual.
      * 
      * @param dato nombre del dato solicitado.
@@ -83,7 +84,7 @@ public class Entrada {
     public int validarEnteros (String dato, int numero) {
         while(true) {
             System.out.println(dato + " [" + numero + "]: ");
-            String valor = sc.nextLine().trim();
+            String valor = leer().trim();
             if (valor.isEmpty()) {
                 return numero;
             }
@@ -98,12 +99,12 @@ public class Entrada {
      * Pide el estado de lectura y valida que sea uno de los cuatro permitidos.
      * No distingue mayúsculas de minúsculas y acepta "leído".
      * 
-     * @return el estado correspondiente, o el actual si se deja vacío.
+     * @return el estado correspondiente.
      */
     public EstadoLectura validarEstado() {
         while (true) {
             System.out.println("Estado (lo tengo, leyendo, leido, deseado): ");
-            String valor = sc.nextLine().trim().toLowerCase().replace("í", "i");
+            String valor = leer().trim().toLowerCase().replace("í", "i");
             if (valor.matches("lo tengo|leyendo|leido|deseado")) {
                 return EstadoLectura.desdeDB(valor);
             }
@@ -121,7 +122,7 @@ public class Entrada {
     public EstadoLectura validarEstado(EstadoLectura estado) {
         while (true) {
             System.out.println("Estado (lo tengo, leyendo, leido, deseado) [" + estado.getValorDB() + "]: ");
-            String valor = sc.nextLine().trim().toLowerCase().replace("í", "i");
+            String valor = leer().trim().toLowerCase().replace("í", "i");
             if (valor.isEmpty()) {
                 return estado;
             }
@@ -146,7 +147,7 @@ public class Entrada {
         String actual = (fecha == null) ? "" : fecha.format(formato);
         while(true) {
             System.out.println(dato + " (dd-mm-aaaa) [" + actual + "]: ");
-            String valor = sc.nextLine().trim();
+            String valor = leer().trim();
             if (valor.isEmpty()) {
                 return fecha;
             }
@@ -172,7 +173,7 @@ public class Entrada {
     public String validarTexto(String dato) {
         while(true) {
             System.out.println(dato + ": ");
-            String valor = sc.nextLine().trim();
+            String valor = leer().trim();
             if (!valor.isEmpty()) {
                 return valor.substring(0,1).toUpperCase() + valor.substring(1);
             }
@@ -187,20 +188,34 @@ public class Entrada {
      * 
      * @param dato nombre del dato solicitado.
      * @param actual valor actual
-     * @return texto formateado.
+     * @return texto formateado, o el actual si se deja vacío.
      */
     public String validarTexto(String dato, String actual) {
         System.out.println(dato + " [" + actual + "]: ");
-        String valor = sc.nextLine().trim();
+        String valor = leer().trim();
         if (valor.isEmpty()){
             return actual;
         }
         return valor.substring(0,1).toUpperCase() + valor.substring(1);
     }
 
+    /**
+     * Lee una línea. Si el usuario escribe "cancelar" interrumpe la operación.
+     * 
+     * @return la línea leída.
+     * @throws CancelarException si el usuario escribe "cancelar"
+     */
+    private String leer() {
+        String linea = sc.nextLine();
+        if (linea.trim().equalsIgnoreCase("cancelar")) {
+            throw new CancelarException();
+        }
+        return linea;
+    }
+
     
     /**
-     * Solicita confirmación antes de eliminar un libro.
+     * Solicita información al usuario.
      * 
      * @param mensaje pregunta que muestra al usuario
      * @return true si responde S, false si responde N
@@ -208,7 +223,7 @@ public class Entrada {
     public boolean confirmar(String mensaje) {
         while (true) {
             System.out.println(mensaje + " (S/N): ");
-            String valor = sc.nextLine().trim();
+            String valor = leer().trim();
             if (valor.equalsIgnoreCase("S")) return true;
             if (valor.equalsIgnoreCase("N")) return false;
             System.out.println("Responde S o N.");
