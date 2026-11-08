@@ -102,15 +102,17 @@ public class Menu {
                         libroDAO.añadirLibro(conexion, libro);
                         break;
                     case 5:
-                        System.out.println("\nMODIFICAR LIBRO");
+                        System.out.println("\nMODIFICAR LIBRO\n");
                         System.out.println();
                         id = entrada.validarEnteros("Introduce el ID");
+                        System.out.println();
                         libroDAO.modificarLibro(conexion, sc, entrada, id);
                         break;
                     case 6:
                         System.out.println("\nELIMINAR LIBRO");
                         System.out.println();
                         id = entrada.validarEnteros("Introduce el ID");
+                        System.out.println();
                         if (entrada.confirmar("¿Estás seguro de eliminar? Esta acción no se puede deshacer")) {
                             libroDAO.eliminarLibro(conexion, id);
                         } else {
@@ -140,6 +142,7 @@ public class Menu {
                         break;
                     case 0:
                         System.out.println("\nSALIR");
+                        System.out.println();
                         System.out.println("Saliendo...");
                         libroDAO.desconexion(conexion);
                         break;
